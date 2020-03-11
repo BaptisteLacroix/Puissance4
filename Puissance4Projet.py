@@ -5,11 +5,17 @@ from random import randint
 
 
 def initGrid(n,m):
+    """
+    Génération de la matrice
+    """
     matrice = [['.' for i in range(m)] for j in range(n)]
     return matrice
 
 
 def printGrid(matrice):
+    """
+    Génération de la grille
+    """
     print('\n ', end=' ')
     for i in range(1, len(matrice[0])+1):
         print(i, end='  ')
@@ -25,11 +31,17 @@ def printGrid(matrice):
 
 
 def extrait_ligne(matrice,x,y):
+    """
+    Extraction de la ligne
+    """
     resultat = matrice[x] #on récupère la ligne à la position x
     return resultat
 
 
 def extrait_colonne(matrice,x,y):
+    """
+    Extraction de la colonne
+    """
     resultat = []
     for ligne in matrice: #pour chaque ligne (x)
         resultat.append(ligne[y]) #on prends l'élément à l'indice y (colonne)
@@ -37,6 +49,9 @@ def extrait_colonne(matrice,x,y):
 
 
 def extrait_diagonale1(matrice,x,y):
+    """
+    Extraction de la diagonale
+    """
     resultat = []
     ligne = x
     colonne = y
@@ -51,6 +66,9 @@ def extrait_diagonale1(matrice,x,y):
 
 
 def extrait_diagonale2(matrice,x,y):
+    """
+    Extraction de la seconde diagonale
+    """
     resultat = []
     ligne = x
     colonne = y
@@ -65,6 +83,9 @@ def extrait_diagonale2(matrice,x,y):
 
 
 def liste_gagnante(liste,pion):
+    """
+    Vérification si 4 pions allignés
+    """
     compteur=0
     for i in range(len(liste)):
         if liste[i]==pion:  #si trouve un pion, on incrément compteur qui compte les pions
@@ -76,17 +97,23 @@ def liste_gagnante(liste,pion):
     return False
 
 
-def max_liste(liste):       #renvoie l'indice du max dans une liste de nbres
+def maximum_liste(liste): 
+    """      
+    renvoie l'indice du max dans une liste de nombres
+    """
     maximum=0
     indice=0
     for i in range(len(liste)):   #parcourt la liste
         if liste[i]>maximum:
-            maximum=liste[i]   #garde le max
-            indice=i           #et son indic
+            maximum=liste[i]   
+            indice=i           
     return indice              #retourne l'indice
 
 
 def colonne_possible(matrice,x):
+    """
+    Vérifie que la colonne n'est pas pleine
+    """
     if x<0 or x>len(matrice):
         return False
     print(x)
@@ -98,9 +125,8 @@ def colonne_possible(matrice,x):
 
 def coord_de_chute(matrice,y):  
     """
-    la fonction coord_de_chute() prend en paramètres une matrice 
-    et un entier n° Colonne qui renvoie le numéro de la ligne du 
-    jeton une fois qu'il est tombé.
+    Renvoie le numéro de la ligne du jeton
+    une fois qu'il est tombé.
     """
     coord = extrait_colonne(matrice,0,y)
     numero=-1
@@ -110,6 +136,9 @@ def coord_de_chute(matrice,y):
     
 
 def insert_jeton(matrice,pion,colonne):
+    """
+    Permet d'insérer le jeton dans la matrice
+    """
     for i in range(1 ,len(matrice) + 1):
         if matrice[len(matrice)-i][colonne] == ".":
             matrice[len(matrice)-i][colonne] = pion #remplace le dernier . par le pion
@@ -117,13 +146,19 @@ def insert_jeton(matrice,pion,colonne):
 
 
 def point_gagnant(matrice,x,y,pion):
+    """
+    Vérifie si le point est gagnant
+    """
     if liste_gagnante(extrait_colonne(matrice,x,y),pion) or liste_gagnante(extrait_diagonale1(matrice,x,y),pion) or liste_gagnante(extrait_diagonale2(matrice,x,y),pion) or liste_gagnante(extrait_ligne(matrice,x,y),pion):
         return True
     else:
         return False
 
 
-def colonnes_pleines(matrice): #renvoie le nombres de colonnes pleines
+def colonnes_pleines(matrice):
+    """
+    Renvoie le nombre de colonnes pleines
+    """
     nbr_c=0  #compte le nombre de colonnes pleines
     for i in range(len(matrice[0])):
         if not colonne_possible(matrice,i):
@@ -131,7 +166,10 @@ def colonnes_pleines(matrice): #renvoie le nombres de colonnes pleines
     return nbr_c
 
 
-def joueurs(matrice,joueur1,joueur2):   #Joueur vs Joueur
+def joueurs(matrice,joueur1,joueur2):   
+    """
+    Fonction qui créée l'interface Joueur contre Joueur
+    """
     
     while not False:
         y=-1
@@ -166,6 +204,9 @@ def joueurs(matrice,joueur1,joueur2):   #Joueur vs Joueur
 
 
 def Joueur_IA(matrice,joueur1,joueur2):
+    """
+    Fonction qui créée l'interface Joueur contre IA
+    """
     while True:
         if colonnes_pleines(matrice)==len(matrice[0]): #égalité
             print("♦♦♦Égalité♦♦♦")
@@ -219,10 +260,10 @@ def main():
     
     while True:
         try:
-            reponse = int(input("Taper : \n 1 Joueur vs Joueur \n 2 Joueur vs ia (IA joue au hasard) \n 3 Quitter :")) #test si le chiffre rentré est bien la bonne valeur entrée
+            reponse = int(input("Taper : \n 1 Joueur vs Joueur \n 2 Joueur vs ia (IA joue au hasard) \n 3 Quitter :"))
             break
 
-        except ValueError:          #Alerte
+        except ValueError:   #Alerte
             print("Erreur veuillez réessayer")
     
     if reponse==1:
