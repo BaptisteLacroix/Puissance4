@@ -1,12 +1,11 @@
+# auteur: Baptiste Lacroix
+
 from random import randint
+
 
 def initGrid(n,m):
     matrice = [['.' for i in range(m)] for j in range(n)]
     return matrice
-
-
-
-
 
 
 def printGrid(matrice):
@@ -24,16 +23,9 @@ def printGrid(matrice):
     return
 
 
-
-
-
-
 def extrait_ligne(matrice,x,y):
     resultat = matrice[x] #on récupère la ligne à la position x
     return resultat
-
-
-
 
 
 def extrait_colonne(matrice,x,y):
@@ -43,71 +35,45 @@ def extrait_colonne(matrice,x,y):
     return resultat
 
 
-
-
-
-
 def extrait_diagonale1(matrice,x,y):
     resultat = []
-    l = x
-    c = y
-    while (l>0) and (c>0): # remonte au bord
-        l = l-1
-        c = c-1
-    while (l<len(matrice)) and (c<len(matrice[0])): # redescent au bout de la diagonale
-        resultat.append(matrice[l][c])
-        l = l+1
-        c = c+1
+    ligne = x
+    colonne = y
+    while (ligne>0) and (colonne>0): # remonte au bord
+        ligne = ligne-1
+        colonne = colonne-1
+    while (ligne<len(matrice)) and (colonne<len(matrice[0])): # redescent au bout de la diagonale
+        resultat.append(matrice[ligne][colonne])
+        ligne = ligne+1
+        colonne = colonne+1
     return resultat
-
-
-
-
-
 
 
 def extrait_diagonale2(matrice,x,y):
     resultat = []
-    l = x
-    c = y
-    while (l<len(matrice)-1) and (c>0): # redescent au bord
-        l = l+1
-        c = c-1
-    while (l >= 0) and (c<len(matrice[0])): # redescent au bout de la diagonale
-        resultat.append(matrice[l][c])
-        l = l-1
-        c = c+1
+    ligne = x
+    colonne = y
+    while (ligne<len(matrice)-1) and (colonne>0): # redescent au bord
+        ligne = ligne+1
+        colonne = colonne-1
+    while (ligne >= 0) and (colonne<len(matrice[0])): # redescent au bout de la diagonale
+        resultat.append(matrice[ligne][colonne])
+        ligne = ligne-1
+        colonne = colonne+1
     return resultat
 
 
-
-
-
-
 def liste_gagnante(liste,pion):
-    if liste.count(pion) == 4:
-        return True
-    else:
-        return False
-
-
-
-
-"""
-
-
-def liste_gagnante(liste,j):    #verifie si une liste est gagnante pour un joueur j => renvoie V ou F
-    m=0                         #compteur qui compte... les elements consécutifs
-    c=0                         #compteur qui compte... le nombre de caractères j
-    for i in range(len(liste)):  #balaye les élèments de la liste
-        if liste[i]==j:         #si trouve un j, on incrément c qui compte les j
-            c+=1
-            m=max(m,c)          #on garde le max entre m et c qui est le nbre de j à la suite
+    compteur=0
+    for i in range(len(liste)):
+        if liste[i]==pion:  #si trouve un pion, on incrément compteur qui compte les pions
+            compteur+=1
+            if compteur == 4:
+                return True #si 4 à la suite, on retourne vrai
         else:
-            c=0                 #on remet le compteur c à 0 dès que c'est autre chose que j
-    if m==4:
-        return True             #si 4 à la suite, on retourne vrai
+            compteur=0 #on remet le compteur à 0 dès que c'est autre chose que le pion
     return False
+
 
 def max_liste(liste):       #renvoie l'indice du max dans une liste de nbres
     maximum=0
@@ -115,26 +81,26 @@ def max_liste(liste):       #renvoie l'indice du max dans une liste de nbres
     for i in range(len(liste)):   #parcourt la liste
         if liste[i]>maximum:
             maximum=liste[i]   #garde le max
-            indice=i           #et son indice
+            indice=i           #et son indic
     return indice              #retourne l'indice
-
-
-"""
 
 
 def colonne_possible(matrice,x):
     if x<0 or x>len(matrice):
-        return (False)
+        return False
+    print(x)
     if matrice[0][x] == '.':
         return True
     else:
         return False
 
 
-
-
-
-def coord_de_chute(matrice,y):  #la fonction coord_de_chute() prend en paramètres une matrice et un entier n° Colonne qui renvoie le numéro de la ligne du jeton une fois qu'il est tombé.
+def coord_de_chute(matrice,y):  
+    """
+    la fonction coord_de_chute() prend en paramètres une matrice 
+    et un entier n° Colonne qui renvoie le numéro de la ligne du 
+    jeton une fois qu'il est tombé.
+    """
     coord = extrait_colonne(matrice,0,y)
     numero=-1
     while numero+1 < len(coord) and coord[numero+1] == '.':
@@ -142,21 +108,11 @@ def coord_de_chute(matrice,y):  #la fonction coord_de_chute() prend en paramètr
     return numero
     
 
-
-
-
-
-
 def insert_jeton(matrice,pion,colonne):
     for i in range(1 ,len(matrice) + 1):
         if matrice[len(matrice)-i][colonne] == ".":
             matrice[len(matrice)-i][colonne] = pion #remplace le dernier . par le pion
             return matrice
-
-
-
-
-
 
 
 def point_gagnant(matrice,x,y,pion):
@@ -166,20 +122,12 @@ def point_gagnant(matrice,x,y,pion):
         return False
 
 
-
-
-
-
 def colonnes_pleines(matrice): #renvoie le nombres de colonnes pleines
     nbr_c=0  #compte le nombre de colonnes pleines
     for i in range(len(matrice[0])):
         if not colonne_possible(matrice,i):
             nbr_c+=1
     return nbr_c
-
-
-
-
 
 
 def joueurs(matrice,joueur1,joueur2):   #Joueur vs Joueur
@@ -216,12 +164,7 @@ def joueurs(matrice,joueur1,joueur2):   #Joueur vs Joueur
     return
 
 
-
-
-
-
 def Joueur_IA(matrice,joueur1,joueur2):
-    matrice = initGrid(n,m)
     while True:
         if colonnes_pleines(matrice)==len(matrice[0]): #égalité
             print("♦♦♦Égalité♦♦♦")
@@ -229,34 +172,36 @@ def Joueur_IA(matrice,joueur1,joueur2):
 
         y=-1
 
-        while not colonne_possible(matrice,y):
+        while not colonne_possible(matrice,y):  #Vérifie pion dans colonne
             y=int(input("Joueur1 : Donnez le numéro de colonne que vous voulez de 1 à "+str(len(matrice[0]))+" :"))-1
+        #print("avant",matrice)
+        x=coord_de_chute(matrice,y)
         matrice=insert_jeton(matrice,joueur1,y)
+        #print("apres",matrice)
         printGrid(matrice)
-        x=coord_de_chute(matrice,y)   #calcule les coordonnées de chute du jeton pour extraire les 4 listes
+
         if point_gagnant(matrice,x,y,joueur1):
-            print("♦♦♦Humain GAGNE♦♦♦")
+            print("♦♦♦Joueur1 GAGNE♦♦♦")
             return
+        y=-1
 
         print('Ordinateur : ')
-        y=randint(0,n) 
+        y=randint(0,m-1) 
 
         while not colonne_possible(matrice,y):  #Vérifie qu'on peut mettre un jeton dans cette colonne
-            y=randint(0,n)
+            y=randint(0,m-1)
+        x=coord_de_chute(matrice,y)  #calcule les coordonnées de chute du jeton pour extraire les 4 listes
         matrice=insert_jeton(matrice,joueur2,y)   #insere le jeton
         printGrid(matrice)
-        x=coord_de_chute(matrice,y)  #calcule les coordonnées de chute du jeton pour extraire les 4 listes
+        
 
         if point_gagnant(matrice,x,y,joueur2):
             print("♦♦♦IA GAGNE♦♦♦")
-    return
-
-
-
-
+            return
 
 
 def main():
+    global m
     
     n = int(input("Choisissez le nombres de lignes que vous voulez (n'oubliez pas qu'il faut minimum 4 lignes) : "))
     while n < 4:
@@ -290,7 +235,7 @@ def main():
         joueurs(matrice,joueur1,joueur2)
         
     elif reponse==2:
-        print("Attention le pion du joueur est X.")
+        print("Attention le pion de l'IA' est X.")
         joueur2 = 'X'
         joueur1 = str(input("Joueur 1 choisissez votre avatar (1 caractère maximum) : "))
         if len(joueur1) != 1 or joueur1 == joueur2:
@@ -308,9 +253,9 @@ main()
 
 
 
+""" Pour les tests
 
-
-"""matrice = 
+matrice = 
 [['.','.','.','O','.','.','.'],
 ['.','.','.','O','.','.','.'],
 ['.','.','.','O','.','.','.'],
