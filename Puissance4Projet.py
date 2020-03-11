@@ -1,4 +1,5 @@
 # auteur: Baptiste Lacroix
+#lien GitHub: https://github.com/BaptisteLacroix/Puissance4
 
 from random import randint
 
