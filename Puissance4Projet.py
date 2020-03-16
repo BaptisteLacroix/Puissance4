@@ -116,7 +116,7 @@ def colonne_possible(matrice,x):
     """
     if x<0 or x>len(matrice):
         return False
-    print(x)
+    #print(x)
     if matrice[0][x] == '.':
         return True
     else:
@@ -178,7 +178,7 @@ def joueurs(matrice,joueur1,joueur2):
             return
 
         while not colonne_possible(matrice,y):  #Vérifie pion dans colonne
-            y=int(input("Joueur1 : Donnez le numéro de colonne que vous voulez de 1 à "+str(len(matrice[0]))+" :"))-1
+            y=int(input(nomJoueur+" : Donnez le numéro de colonne que vous voulez de 1 à "+str(len(matrice[0]))+" :"))-1
         #print("avant",matrice)
         x=coord_de_chute(matrice,y)
         matrice=insert_jeton(matrice,joueur1,y)
@@ -186,19 +186,19 @@ def joueurs(matrice,joueur1,joueur2):
         printGrid(matrice)
 
         if point_gagnant(matrice,x,y,joueur1):
-            print("♦♦♦Joueur1 GAGNE♦♦♦")
+            print("♦♦♦",nomJoueur,"GAGNE♦♦♦")
             return
         y=-1
 
         while not colonne_possible(matrice,y):  #Vérifie pion dans colonne
             #print(matrice)
-            y=int(input("Joueur2 : Donnez le numéro de colonne que vous voulez de 1 à " + str(len(matrice[0])) + " :"))-1
+            y=int(input(nomJoueur2+" : Donnez le numéro de colonne que vous voulez de 1 à " + str(len(matrice[0])) + " :"))-1
         x=coord_de_chute(matrice,y)
         matrice=insert_jeton(matrice,joueur2,y)
         printGrid(matrice)
 
         if point_gagnant(matrice,x,y,joueur2):
-            print("♦♦♦Joueur2 GAGNE♦♦♦")
+            print("♦♦♦",nomJoueur2,"GAGNE♦♦♦")
             return
     return
 
@@ -244,6 +244,8 @@ def Joueur_IA(matrice,joueur1,joueur2):
 
 def main():
     global m
+    global nomJoueur
+    global nomJoueur2
     
     n = int(input("Choisissez le nombres de lignes que vous voulez (n'oubliez pas qu'il faut minimum 4 lignes) : "))
     while n < 4:
@@ -267,12 +269,18 @@ def main():
             print("Erreur veuillez réessayer")
     
     if reponse==1:
-        joueur1 = str(input("Joueur 1 choisissez votre avatar (1 caractère maximum) : "))
+        nomJoueur = str(input("Joueur 1 choisissez un nom : "))
+        nomJoueur2 = str(input("Joueur 2 choisissez un nom : "))
+        if nomJoueur2 == nomJoueur:
+            nomJoueur2=''
+            nomJoueur2 = str(input("Joueur 2 choisissez un nom : "))
+        
+        joueur1 = str(input(nomJoueur +" choisissez votre avatar (1 caractère maximum) : "))
         if len(joueur1) != 1:
-            joueur1 = str(input("Joueur 1 choisissez votre avatar (1 caractère maximum) : "))
-        joueur2 = str(input("Joueur 2 choisissez votre avatar (1 caractère maximum) : "))
+            joueur1 = str(input(nomJoueur +" choisissez votre avatar (1 caractère maximum) : "))
+        joueur2 = str(input(nomJoueur2 +" choisissez votre avatar (1 caractère maximum) : "))
         if len(joueur2) != 1 or joueur2 == joueur1:
-            joueur2 = str(input("Joueur 2 choisissez votre avatar (1 caractère maximum) : "))
+            joueur2 = str(input(nomJoueur2 +" choisissez votre avatar (1 caractère maximum) : "))
         printGrid(matrice)
         joueurs(matrice,joueur1,joueur2)
         
